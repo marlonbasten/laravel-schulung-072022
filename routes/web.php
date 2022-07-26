@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [TestController::class, 'index'])->name('index');
 
+Route::get('/test', [TestController::class, 'test'])->name('test');
+
 Route::get('/kontakt/{country?}', [TestController::class, 'kontakt'])->name('kontaktFormular');
 
 Route::post('/kontakt', [TestController::class, 'send'])->name('sendFormular');
@@ -25,5 +28,13 @@ Route::prefix('/post')->name('post.')->controller(TestController::class)->group(
     Route::get('/', 'index')->name('list');
     Route::get('/edit', 'test')->name('edit');
     Route::get('/show', 'test2')->name('show');
+
+});
+
+Route::prefix('/admin')->name('admin.')->group(function () {
+
+    Route::get('/contact', [AdminController::class, 'contact'])->name('contact');
+    Route::get('/contact/{contact_request}/done', [AdminController::class, 'contactDone'])->name('contactDone');
+    Route::delete('/contact/{contact_request}', [AdminController::class, 'contactDelete'])->name('contactDelete');
 
 });

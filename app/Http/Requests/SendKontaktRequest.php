@@ -27,7 +27,8 @@ class SendKontaktRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:3'],
             'email' => ['required', 'email:dns', new IsAdminEmail()],
-            'message' => ['required', 'string']
+            'message' => ['required', 'string'],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
         ];
     }
 }

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SendKontaktRequest;
+use App\Models\Category;
+use App\Models\ContactRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
 {
@@ -22,6 +25,22 @@ class TestController extends Controller
         ]);
     }
 
+    public function test()
+    {
+        $rawSql = DB::select(DB::raw('SELECT * FROM tags'));
+
+        dd($rawSql);
+
+        $contact_request = ContactRequest::find(1);
+
+        // $contact_request->tags()->attach(1); // Fügt einen Tag zu einer Kontaktanfrage hinzu. Achtung: Geht auch doppelt!
+        $contact_request->tags()->syncWithoutDetaching(1);
+
+        foreach ($contact_request->tags as $tag) {
+            echo $tag->name . '<br>';
+        }
+    }
+
     public function kontakt(string $country = 'de')
     {
         $countryList = [
@@ -30,12 +49,15 @@ class TestController extends Controller
             'at',
         ];
 
-        return view('kontakt', compact('country', 'countryList'));
+        $categories = Category::all();
+
+        return view('kontakt', compact('country', 'countryList', 'categories'));
     }
 
     public function send(SendKontaktRequest $request)
     {
-        //TODO: Formular in DB speichern
+        $contactRequest = new ContactRequest($request->validated());
+        $contactRequest->save();
 
         return redirect()->back()->with('message', 'Formular erfolgreich abgesendet!');
     }
