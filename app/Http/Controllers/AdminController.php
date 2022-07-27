@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AdminController extends Controller
 {
     public function contact()
     {
+        /*if (auth()->user()->cannot('viewAny', ContactRequest::class)) {
+            abort(403);
+        }*/
+
         $contact_requests = ContactRequest::query()->with(['category'])->where('done', false)->select([
             'id',
             'name',
@@ -34,6 +40,10 @@ class AdminController extends Controller
 
     public function contactDelete(ContactRequest $contact_request)
     {
+        if (auth()->user()->cannot('delete', $contact_request)) {
+            abort(403);
+        }
+
         $contact_request->delete();
 
         return redirect()->back();
