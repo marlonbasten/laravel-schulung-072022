@@ -1,0 +1,16 @@
+POST http://localhost/api/contact-requests
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "john.doe@test.de",
+    "message": "This is a test message",
+    "category_id": 1
+}
+
+###
+GET http://localhost/api/contact-requests
+Accept: application/json
+Authorization: Bearer 2|RGyAHj673g5OSH56czFmCmK2mJBk6wyXzZCBR42c
+
+

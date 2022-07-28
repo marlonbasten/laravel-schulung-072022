@@ -2,22 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\ContactRequestContract;
+use App\Events\ContactRequestCreatedEvent;
 use App\Http\Requests\SendKontaktRequest;
 use App\Imports\ContactRequestImport;
 use App\Jobs\LogNewContactRequestJob;
 use App\Mail\NewContactRequestMail;
 use App\Models\Category;
 use App\Models\ContactRequest;
+use Carbon\Carbon;
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Permission;
 use function GuzzleHttp\Promise\queue;
 
 class TestController extends Controller
 {
+    public function __construct(private ContactRequestContract $contactRequestContract)
+    {
+    }
+
     public function index()
     {
         $users = [
@@ -35,6 +44,24 @@ class TestController extends Controller
 
     public function test2()
     {
+        $date = Carbon::parse('28.06.2022');
+
+        dd($date->addDay());
+
+        File::makeDirectory(storage_path('hans'), 0777, true, true);
+
+        $file = Storage::disk('franz')->get('Mappe1.xlsx');
+
+        dd($file);
+    }
+
+    public function test3()
+    {
+//        $token = auth()->user()->createToken('Test', [
+//            'list-contact-requests',
+//            'create-contact-request',
+//        ]);
+//        dd($token);
 //        Permission::create([
 //            'name' => 'view-contact-requests',
 //        ]);
@@ -90,11 +117,7 @@ class TestController extends Controller
 
     public function send(SendKontaktRequest $request)
     {
-        $contactRequest = new ContactRequest($request->validated());
-        $contactRequest->save();
-
-        Mail::to('admin@blog.de')->queue(new NewContactRequestMail($contactRequest));
-        LogNewContactRequestJob::dispatch('Neue Kontaktanfrage');
+        $this->contactRequestContract->create($request->validated());
 
         return redirect()->back()->with('message', 'Formular erfolgreich abgesendet!');
     }

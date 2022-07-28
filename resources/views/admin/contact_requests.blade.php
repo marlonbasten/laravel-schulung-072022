@@ -26,6 +26,7 @@
                     <td>{{ $contact_request->message }}</td>
                     <td>{{ $contact_request->category?->name }}</td>
                     <td>
+                        <a href="{{ route('admin.contactDownload', ['contact_request' => $contact_request->id]) }}" class="btn btn-info">Download</a>
                         <a href="{{ route('admin.contactDone', ['contact_request' => $contact_request->id]) }}" class="btn btn-warning">Erledigt</a>
                         <form action="{{ route('admin.contactDelete', ['contact_request' => $contact_request->id]) }}" method="POST" class="d-inline">
                             @csrf

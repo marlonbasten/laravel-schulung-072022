@@ -6,6 +6,7 @@ use App\Models\ContactRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -47,5 +48,11 @@ class AdminController extends Controller
         $contact_request->delete();
 
         return redirect()->back();
+    }
+
+    public function download(ContactRequest $contact_request)
+    {
+
+        return Storage::disk($contact_request->file_disk)->download($contact_request->file_path);
     }
 }

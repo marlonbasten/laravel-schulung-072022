@@ -19,7 +19,7 @@
     @endif
 
     @if(in_array($country, $countryList))
-        <form action="{{ route('sendFormular') }}" method="POST">
+        <form action="{{ route('sendFormular') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <select name="category_id">
                 @foreach($categories as $category)
@@ -28,7 +28,8 @@
             </select><br>
             <input type="text" name="name" value="{{ old('name') }}"><br>
             <input type="text" name="email" value="{{ old('email') }}"><br>
-            <textarea name="message">{{ old('message') }}</textarea><br><br>
+            <textarea name="message">{{ old('message') }}</textarea><br>
+            <input type="file" name="file"><br><br>
             <input type="submit" value="Kontaktieren">
         </form>
     @else

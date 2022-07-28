@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ContactRequest extends Model
 {
     use SoftDeletes;
+    use HasFactory;
 
     // Falls der Tabellenname nicht "contact_requests" ist, muss dieser hier angegeben werden.
 //    protected $table = 'kontaktanfragen';
@@ -23,6 +25,10 @@ class ContactRequest extends Model
         'id',
         'created_at',
         'updated_at',
+    ];
+
+    protected $casts = [
+        'done' => 'boolean',
     ];
 
     protected function name(): Attribute

@@ -29,6 +29,7 @@ class SendKontaktRequest extends FormRequest
             'email' => ['required', 'email:dns', new IsAdminEmail()],
             'message' => ['required', 'string'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'file' => ['nullable', 'file', 'mimes:jpeg,png,jpg,pdf,xlsx'],
         ];
     }
 }

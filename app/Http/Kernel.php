@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laravel\Sanctum\Http\Middleware\CheckAbilities;
+use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 
 class Kernel extends HttpKernel
 {
@@ -64,5 +66,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin.password' => \App\Http\Middleware\AdminPasswordMiddleware::class,
+        'ability' => CheckForAnyAbility::class,
+        'abilities' => CheckAbilities::class,
     ];
 }

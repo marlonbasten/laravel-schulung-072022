@@ -33,9 +33,10 @@ Route::prefix('/post')->name('post.')->controller(TestController::class)->group(
 
 });
 
-Route::prefix('/admin')->name('admin.')->middleware('can:view-contact-requests')->group(function () {
+Route::prefix('/admin')->name('admin.')->group(function () {
 
     Route::get('/contact', [AdminController::class, 'contact'])->name('contact');
+    Route::get('/contact/{contact_request}/download', [AdminController::class, 'download'])->name('contactDownload');
     Route::get('/contact/{contact_request}/done', [AdminController::class, 'contactDone'])->name('contactDone');
     Route::delete('/contact/{contact_request}', [AdminController::class, 'contactDelete'])->name('contactDelete');
 
