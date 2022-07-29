@@ -28,6 +28,11 @@ return [
     |
     */
 
+    'options' => [
+        'cluster' => 'APP_CLUSTER',
+        'useTLS' => true
+    ],
+
     'connections' => [
 
         'pusher' => [

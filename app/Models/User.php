@@ -43,7 +43,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->setConnection(session('user_connection'));
+    }
+
     public function isAdmin()
+    {
+        return false;
+    }
+
+    public function formal()
     {
         return false;
     }

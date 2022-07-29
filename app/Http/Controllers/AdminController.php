@@ -16,13 +16,14 @@ class AdminController extends Controller
             abort(403);
         }*/
 
-        $contact_requests = ContactRequest::query()->with(['category'])->where('done', false)->select([
-            'id',
-            'name',
-            'email',
-            'message',
-            'done',
-            'category_id',
+        $contact_requests = ContactRequest::query()->where('done', false)->leftJoin('categories', 'contact_requests.category_id', 'categories.id')->select([
+            'contact_requests.id',
+            'contact_requests.name',
+            'contact_requests.email',
+            'contact_requests.message',
+            'contact_requests.done',
+            'contact_requests.category_id',
+            'categories.name AS category_name',
         ])->paginate(5);
 
 //        ContactRequest::query()->whereIn('id', [3,4])->update(['done' => true]);

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Blog\Facades\Blog;
+use App\Blog\Facades\Payment;
 use App\Contracts\ContactRequestContract;
 use App\Events\ContactRequestCreatedEvent;
 use App\Http\Requests\SendKontaktRequest;
@@ -15,6 +17,7 @@ use Illuminate\Bus\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -42,8 +45,26 @@ class TestController extends Controller
         ]);
     }
 
+    public function callback(Request $request)
+    {
+
+    }
+
     public function test2()
     {
+        $response = Http::post('http://localhost/api/contact-requests', [
+            'name' => 'John Doe',
+            'email' => 'jd@test.de',
+            'message' => 'test',
+            'category_id' => 1
+        ]);
+
+        dd($response->json());
+
+//        return Payment::checkout();
+//        return app()->get('blog')->greet('test');
+//        return (new Blog())->greet('Test');
+
         $date = Carbon::parse('28.06.2022');
 
         dd($date->addDay());

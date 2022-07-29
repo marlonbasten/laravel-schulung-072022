@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Blog\Blog;
+use App\Blog\Klarna;
+use App\Blog\PayPal;
+use App\Blog\Test;
 use App\Contracts\ContactRequestContract;
 use App\Models\ContactRequest;
 use App\Observers\ContactRequestObserver;
@@ -19,7 +23,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind('blog', function () {
+            return new Blog();
+        });
+        $this->app->bind('test', function () {
+            return new Test();
+        });
+        $this->app->bind('paypal-checkout', function () {
+            return new PayPal();
+        });
+        $this->app->bind('klarna-checkout', function () {
+            return new Klarna();
+        });
     }
 
     /**

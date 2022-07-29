@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ContactRequestCreatedEvent
+class ContactRequestCreatedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -23,5 +23,15 @@ class ContactRequestCreatedEvent
     public function __construct(public ContactRequest $contactRequest)
     {
 
+    }
+
+    public function broadcastOn()
+    {
+        return ['contact-request'];
+    }
+
+    public function broadcastAs()
+    {
+        return 'contact-request-created';
     }
 }

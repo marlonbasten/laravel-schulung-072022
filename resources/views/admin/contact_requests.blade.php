@@ -24,7 +24,7 @@
                     <td>{{ $contact_request->name }}</td>
                     <td>{{ $contact_request->email }}</td>
                     <td>{{ $contact_request->message }}</td>
-                    <td>{{ $contact_request->category?->name }}</td>
+                    <td>{{ $contact_request->category_name }}</td>
                     <td>
                         <a href="{{ route('admin.contactDownload', ['contact_request' => $contact_request->id]) }}" class="btn btn-info">Download</a>
                         <a href="{{ route('admin.contactDone', ['contact_request' => $contact_request->id]) }}" class="btn btn-warning">Erledigt</a>
